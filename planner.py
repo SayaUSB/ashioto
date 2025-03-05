@@ -30,13 +30,20 @@ class FootstepsPlanner(Node):
         self.current_position = None
         self.goal_position = None
 
-        # Subscribe robot position
+        # Subscribe current robot position
         self.subscription = self.create_subscription(
             Point,
             '/robot/current_position', # Ndak tau ini nama topik yang disubscribe
             self.position_callback,
             10)
         
+        # Subscribe robot goal position
+        self.goal_subscription = self.create_subscription(
+            Point,
+            '/robot/goal_position', # Ndak tau ini nama topik yang disubscribe
+            self.goal_position_callback,
+            10
+        )
         # Publish generated foosteps
         self.footstep_publisher = self.create_publisher(
             Point,
@@ -52,6 +59,11 @@ class FootstepsPlanner(Node):
         # Planning timer
         self.timer = self.create_timer(0.1, self.planning_callback)
         self.footstep_generator = None
+
+    def goal_position_callback(self, msg):
+        """Store robot goal position"""
+        self.goal_position = [msg.x, msg.y, msg.z]
+        self.get_logger().info(f"Received position: {self.goal_position}")
 
     def position_callback(self, msg):
         """Store current robot position"""
@@ -139,7 +151,7 @@ if __name__ == "__main__":
     
     # Set initial goal (you can modify this to receive goals dynamically)
     planner.current_position = [0, 0, 0]
-    planner.set_goal([8.0, 6.0, 0.0])  # Example goal
+    planner.set_goal([6.0, 6.0, 0.0])  # Example goal
     
     rclpy.spin(planner)
     planner.destroy_node()
