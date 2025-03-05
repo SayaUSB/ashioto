@@ -231,7 +231,7 @@ class FootstepsPlanningEnv(gymnasium.Env):
         if self.visualize:
             self.do_render()
 
-        return state, reward, terminated, False, {"Foot Coord":self.simulator.support_pose()}
+        return state, reward, terminated, False, {"Foot Coord":self.simulator.support_pose(), "Support Foot": self.simulator.support_foot}
 
     def reset(self, seed: int | None = None, options: Optional[dict] = None):
         """
