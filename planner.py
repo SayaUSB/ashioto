@@ -30,7 +30,7 @@ class FootstepsPlanner(Node):
         self.current_position = None
         self.goal_position = None
 
-        # Subscriber robot position
+        # Subscribe robot position
         self.subscription = self.create_subscription(
             Point,
             '/robot/current_position', # Ndak tau ini nama topik yang disubscribe
