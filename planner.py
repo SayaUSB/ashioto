@@ -38,7 +38,7 @@ class FootstepsPlanner(Node):
             10)
         
         # Publish generated foosteps
-        self.publisher = self.create_publisher(
+        self.footstep_publisher = self.create_publisher(
             Point,
             '/ashioto/next_footstep', # Ndak tau ini nama topik yang dipublish 
             10)
@@ -120,7 +120,7 @@ class FootstepsPlanner(Node):
             coord_msg.x = float(next_coord[0])
             coord_msg.y = float(next_coord[1])
             coord_msg.z = float(next_coord[2])
-            self.publisher.publish(coord_msg)
+            self.footstep_publisher.publish(coord_msg)
 
             # Publish the support foot
             support_msg = String()
